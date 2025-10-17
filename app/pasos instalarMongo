@@ -1,0 +1,104 @@
+1 Crear la api express
+
+2. Añadir  en tu AndroidManifest.xml -> <uses-permission android:name="android.permission.INTERNET" />
+(Para que tu app pueda hacer peticiones HTTP/HTTPS:)
+
+3. Elige cómo hacer las peticiones HTTP.
+    - Usar Retrofit (recomendado), libreria
+    - meter esto en el build.grace.kts de tu proyecto.
+
+    dependencies {
+        implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+        implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    }
+
+    C:\Users\ialfper\AndroidStudioProjects\Crud_Android\app\pasos instalarMongo
+
+4. Crear un archivo kotlin que sera la data Class Usuarios, basicamente recive el json de la api y convierte a un objeto con las propiedades que le indicas,
+        -En mi caso
+        package com.aulaestudio.crud_android
+
+                    data class Usuario(
+                        val nombre: String,
+                        val apellido: String,
+                        val profesion: String,
+                        val direccion: String
+                    )
+
+
+5. Crear el archivo.kt  ""ApiServides.kt"".
+            package com.aulaestudio.crud_android
+
+            import retrofit2.Call
+
+            import retrofit2.http.GET
+
+
+            interface ApiService {
+                @GET("usuarios")
+                fun getUsuarios(): Call<List<Usuario>>
+
+            }
+
+
+6. Configurar retrofit.Kt
+package com.aulaestudio.crud_android
+
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+object RetrofitClient {
+    private const val BASE_URL = "https://api-android-crud.vercel.app/api/" // o tu IP
+
+    val instance: ApiService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofit.create(ApiService::class.java)
+    }
+}
+
+7. ir a tu mainActivity.kt
+
+package com.aulaestudio.crud_android
+
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Llamada a la API
+        RetrofitClient.instance.getUsuarios().enqueue(object : retrofit2.Callback<List<Usuario>> {
+            override fun onResponse(
+                call: retrofit2.Call<List<Usuario>>,
+                response: retrofit2.Response<List<Usuario>>
+            ) {
+                if (response.isSuccessful) {
+                    val usuarios = response.body()
+                    usuarios?.forEach {
+                        println("${it.nombre} ${it.apellido}")
+                    }
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<List<Usuario>>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+    }
+}
+
+
+
+
+
+
