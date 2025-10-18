@@ -63,14 +63,15 @@ class MainActivity : AppCompatActivity() {
         cargarUsuarios() // recarga lista al volver de PaginaCrear
     }
 
-
+    //cargar los usuarios
     private fun cargarUsuarios() {
 
         RetrofitClient.instance.getUsuarios().enqueue(object : Callback<List<Usuario>> {
             override fun onResponse(call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
+                //meter la respuesta del la pai en una variable
                 val usuarios = response.body().orEmpty()
 
-                //mostrar todos los usuarios
+                //mostrar todos los usuarios en el log
                 for (usuario in usuarios) {
                     Log.d(
                         "Carga de usuarios",
