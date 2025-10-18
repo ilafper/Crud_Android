@@ -10,6 +10,7 @@
 
 
     <!-- En donde muestro los usuarios cargados -->
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.aulaestudio.crud_android
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,40 +8,41 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 // Recibe la lista de usuarios. La hacemos 'var' y no 'val' para poder actualizarla.
-class UserAdapter(private var usuarios: List<Usuario>) :
-    RecyclerView.Adapter<UserAdapter.UsuarioViewHolder>() {
+class UserAdapter(
+    private var usuarios: List<Usuario>,
+    private val onEliminarClick: (Usuario) -> Unit // callback al pulsar "borrar"
 
-    // Clase interna que contiene las referencias a las vistas de un solo ítem.
-    inner class UsuarioViewHolder(vista: View) : RecyclerView.ViewHolder(vista) {
-        val nombre_pj: TextView = vista.findViewById(R.id.nombre)
-        val rango_pj: TextView = vista.findViewById(R.id.rango)
-        val region_pj: TextView = vista.findViewById(R.id.region)
-        val via_pj: TextView = vista.findViewById(R.id.via)
+) : RecyclerView.Adapter<UserAdapter.SimpleViewHolder>() {
+
+    class SimpleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val nombre: TextView = view.findViewById(R.id.nombre)
+        val rango: TextView = view.findViewById(R.id.rango)
+        val region: TextView = view.findViewById(R.id.region)
+        val via: TextView = view.findViewById(R.id.via)
+        val botonEliminar: TextView = view.findViewById(R.id.botonEliminar)
     }
 
-    // Crea nuevos ViewHolders (infla el layout item_usuario.xml)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsuarioViewHolder {
-        val vista = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_usuario, parent, false)
-        return UsuarioViewHolder(vista)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        SimpleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_usuario, parent, false))
 
-    // Reemplaza el contenido de las vistas con los datos del usuario en la posición dada.
-    override fun onBindViewHolder(holder: UsuarioViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SimpleViewHolder, position: Int) {
         val usuario = usuarios[position]
-        holder.nombre_pj.text = "${usuario.nombre}"
-        holder.rango_pj.text = "${usuario.rango}"
-        holder.region_pj.text = "${usuario.region}"
-        holder.via_pj.text = "${usuario.via_principal}"
+        holder.nombre.text = usuario.nombre
+        holder.rango.text = usuario.rango
+        holder.region.text = usuario.region
+        holder.via.text = usuario.via_principal
+
+        // Al pulsar el botón de borrar
+        holder.botonEliminar.setOnClickListener {
+            Log.d("ID A BORRA DE LA TARGETA", "ID a borarr = ${usuario._id}")
+            onEliminarClick(usuario)
+        }
     }
 
-    // Retorna el tamaño de la lista de usuarios
-    override fun getItemCount(): Int = usuarios.size
+    override fun getItemCount() = usuarios.size
 
-    // Función para actualizar la lista de datos y refrescar la vista.
-    fun actualizarDatos(nuevosUsuarios: List<Usuario>) {
-        usuarios = nuevosUsuarios
-        notifyDataSetChanged() // Notifica al RecyclerView que los datos han cambiado
+    fun actualizarDatos(nuevos: List<Usuario>) {
+        usuarios = nuevos
+        notifyDataSetChanged()
     }
-
 }

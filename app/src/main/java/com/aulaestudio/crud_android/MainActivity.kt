@@ -12,80 +12,102 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
+import kotlin.math.log
+
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
+    //
     private lateinit var adaptadorUsuarios: UserAdapter
-    private val TAG = "MainActivity"
-
+    // funcion principal, se encarga de cargar la vista(html) que en nuestro caso es el activity.xml
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        //que ocupe todo
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        //indicamos que archivo.xml muestre
-        setContentView(R.layout.activity_main)
 
-
-        //
-        val miboton = findViewById<Button>(R.id.botonCrear)
-        miboton.setOnClickListener {
-            val intent = Intent(this@MainActivity, PaginaCrear::class.java)
-            startActivity(intent)
+        // Botón para crear nueva tarjeta y redirigir a una nueva vista html
+        findViewById<Button>(R.id.botonCrear).setOnClickListener {
+            startActivity(Intent(this, PaginaCrear::class.java))
         }
 
-        // Configurar el RecyclerView
-        recyclerView = findViewById(R.id.listaDeUsuarios)
+        // mesaje de alerta para confirmar borrar la tarjeta
+        adaptadorUsuarios = UserAdapter(emptyList()) { usuario ->
+            // Abrir diálogo de confirmación
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Confirmar eliminación")
+                .setMessage("¿Deseas borrar la tarjeta de ${usuario.nombre}?")
 
-        // Inicializar el adaptador con una lista vacía
-        adaptadorUsuarios = UserAdapter(emptyList())
+                .setPositiveButton("Sí") { dialog, _ ->
+                    borrarTarjeta(usuario._id!!)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
 
-        // Asignar el LayoutManager (para que se muestren en formato de lista vertical)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        // buscar el contenedor en donde iran las targetas.
+        findViewById<RecyclerView>(R.id.listaDeUsuarios).apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = adaptadorUsuarios
+        }
 
-        // Asignar el adaptador
-        recyclerView.adapter = adaptadorUsuarios
-
-        // 2. Iniciar la carga de usuarios
+        // Cargar usuarios iniciales
         cargarUsuarios()
-
-
-
-
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        cargarUsuarios() // recarga lista al volver de PaginaCrear
+    }
+
+
     private fun cargarUsuarios() {
-        // Usar RetrofitClient para obtener la instancia del servicio y hacer la llamada
+
         RetrofitClient.instance.getUsuarios().enqueue(object : Callback<List<Usuario>> {
-
-            // Se llama cuando la respuesta llega del servidor (exitosa o con error HTTP)
             override fun onResponse(call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
-                if (response.isSuccessful) {
+                val usuarios = response.body().orEmpty()
 
-                    val usuariosRecibidos = response.body()
-                    if (usuariosRecibidos != null && usuariosRecibidos.isNotEmpty()) {
-                        //mensaje
-                        Log.d(TAG, "Usuarios cargados con éxito: ${usuariosRecibidos.size} elementos.")
-                        // Actualizar los datos en el adaptador
-                        adaptadorUsuarios.actualizarDatos(usuariosRecibidos)
-                    } else {
-                        Log.w(TAG, "Respuesta exitosa pero la lista de usuarios está vacía.")
-                        Toast.makeText(this@MainActivity, "No se encontraron usuarios.", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    // La respuesta NO fue 2xx (ej: 404, 500)
-                    Log.e(TAG, "Error en la respuesta del servidor: ${response.code()}")
-                    Toast.makeText(this@MainActivity, "Error: Código ${response.code()}", Toast.LENGTH_LONG).show()
+                //mostrar todos los usuarios
+                for (usuario in usuarios) {
+                    Log.d(
+                        "Carga de usuarios",
+                        "id=${usuario._id}, Nombre=${usuario.nombre}, Rango=${usuario.rango}, Región=${usuario.region}, Vía=${usuario.via_principal}"
+                    )
                 }
+
+
+                if (usuarios.isNotEmpty()) adaptadorUsuarios.actualizarDatos(usuarios)
+                else Toast.makeText(this@MainActivity, "No se encontraron usuarios.", Toast.LENGTH_SHORT).show()
             }
 
-            // Se llama cuando ocurre un error de red (sin conexión, timeout, etc.)
             override fun onFailure(call: Call<List<Usuario>>, t: Throwable) {
-                Log.e(TAG, "Error de conexión/red: ${t.message}", t)
                 Toast.makeText(this@MainActivity, "Error de red: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
-
     }
+
+    fun borrarTarjeta(id: String) {
+        RetrofitClient.instance.borrarTargeta(id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@MainActivity, "Tarjeta eliminada", Toast.LENGTH_SHORT).show()
+                    cargarUsuarios() // refresca la lista
+                } else {
+                    Toast.makeText(this@MainActivity, "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+
 
 
 
