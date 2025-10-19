@@ -22,13 +22,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //que ocupe todo
+        //que ocupe todosss
         enableEdgeToEdge()
 
         // Botón para crear nueva tarjeta y redirigir a una nueva vista html
         findViewById<Button>(R.id.botonCrear).setOnClickListener {
             startActivity(Intent(this, PaginaCrear::class.java))
         }
+
+
 
         // mesaje de alerta para confirmar borrar la tarjeta
         adaptadorUsuarios = UserAdapter(emptyList()) { usuario ->

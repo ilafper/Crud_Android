@@ -22,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Modificar" />
+
 
         <!-- le dice a android estudio que tiene este archivo para usarlo -->
         <activity android:name="com.aulaestudio.crud_android.PaginaCrear" />

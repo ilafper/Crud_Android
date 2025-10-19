@@ -1,4 +1,9 @@
+// archivo: Usuario.kt
 package com.aulaestudio.crud_android
+
+import android.os.Parcelable
+
+
 
 data class Usuario(
     val _id: String?,
