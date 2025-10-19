@@ -53,6 +53,7 @@ class Modificar : AppCompatActivity() {
             finish()
         }
 
+
         /*
         botonActualizar.setOnClickListener {
             val nuevoNombre = nombreModificar.text.toString()
