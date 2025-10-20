@@ -7,127 +7,131 @@
     android:layout_height="match_parent"
     android:background="@drawable/fondo_crear">
 
-    <!-- Título principal -->
-
-    <!-- Contenedor blanco con bordes redondeados -->
+    <!-- Contenedor principal -->
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/formu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="24dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/fondo_formu"
+        android:padding="28dp"
+        android:elevation="10dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <!-- Título -->
 
         <!-- Nombre -->
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="381dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:letterSpacing="0.02"
             android:text="Crea a tu Personaje"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
+            android:textColor="#2C2C2C"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Nombre:"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textColor="#2C2C2C"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/nombreCrear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#CCCCCC"
+            android:background="@drawable/estilo_input"
             android:hint="Introduce tu nombre"
             android:inputType="textPersonName"
-            android:scrollbarSize="6dp"
+            android:padding="12dp"
             android:textColor="#000000"
-            android:textColorHint="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textColorHint="#888888"
+            android:textSize="16sp" />
 
         <!-- Calidad -->
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Calidad:"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textColor="#2C2C2C"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
 
         <Spinner
             android:id="@+id/RangoCrear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#CCCCCC" />
+            android:background="@drawable/estilo_spinner" />
 
         <!-- Región -->
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Región:"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textColor="#2C2C2C"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
 
         <Spinner
             android:id="@+id/RegionCrear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#CCCCCC" />
+            android:background="@drawable/estilo_spinner" />
 
         <!-- Vía -->
         <TextView
-            android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Vía:"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textColor="#2C2C2C"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
 
         <Spinner
             android:id="@+id/viaCrear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:backgroundTint="#CCCCCC" />
+            android:background="@drawable/estilo_spinner" />
 
         <!-- Botones -->
         <Button
             android:id="@+id/CrearNuevo"
-            android:layout_width="169dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:backgroundTint="#9D6F30"
             android:text="Enviar Datos"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium" />
 
         <Button
             android:id="@+id/volver"
-            android:layout_width="182dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#A07231"
             android:text="Volver"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

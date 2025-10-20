@@ -14,7 +14,6 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import kotlin.math.log
 
-
 class MainActivity : AppCompatActivity() {
     //
     private lateinit var adaptadorUsuarios: UserAdapter
@@ -22,8 +21,9 @@ class MainActivity : AppCompatActivity() {
     // funcion principal, se encarga de cargar la vista(html) que en nuestro caso es el activity.xml
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //carga la primera vista
         setContentView(R.layout.activity_main)
-        //que ocupe todosss
+        //que ocupe todoo
         enableEdgeToEdge()
 
         // Botón para crear nueva tarjeta y redirigir a una nueva vista html
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //cargar los usuarios
-    private fun cargarUsuarios() {
+    fun cargarUsuarios() {
 
         RetrofitClient.instance.getUsuarios().enqueue(object : Callback<List<Usuario>> {
             override fun onResponse(call: Call<List<Usuario>>, response: Response<List<Usuario>>) {
@@ -91,6 +91,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+
 
     fun borrarTarjeta(id: String) {
         RetrofitClient.instance.borrarTargeta(id).enqueue(object : Callback<Void> {
