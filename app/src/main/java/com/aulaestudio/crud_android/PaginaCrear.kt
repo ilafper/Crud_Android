@@ -27,7 +27,7 @@ class PaginaCrear : AppCompatActivity() {
         //llamar al campo de las opciones del rango.
         val CampoRango = findViewById<Spinner>(R.id.RangoCrear)
         //array con las opciones a mostrar en el formu
-        val rangosOpciones=arrayOf("4 estrellas", "5 Estrellas")
+        val rangosOpciones=arrayOf("4 estrellas", "5 estrellas")
 
         val adaptador = ArrayAdapter(
             this,
@@ -46,12 +46,11 @@ class PaginaCrear : AppCompatActivity() {
         val Region_campo = findViewById<Spinner>(R.id.RegionCrear)
         //array con las opciones a mostrar en el formu
         val lista_Regiones = arrayOf(
-            "Estación Espacial Herta",
-            "Jarilo-VI (Belobog)",
-            "Xianzhou Luofu",
+            "Herta Space Station",
+            "Jarilo-VI",
+            "The Xianzhou Luofu",
             "Penacony",
-            "Amphoreus", // Mencionado en el juego, parte de Penacony
-        )
+            "Amphoreus",)
 
         val adaptador2 = ArrayAdapter(
             this,
@@ -68,16 +67,14 @@ class PaginaCrear : AppCompatActivity() {
 
         val via_campo = findViewById<Spinner>(R.id.viaCrear)
         //array con las opciones a mostrar en el formu
-        val lista_vias = arrayOf(
-            "Cacería",
+        val lista_vias = arrayOf("Cacería",
             "Erudición",
             "Destrucción",
             "Conservación",
             "Abundancia",
             "Armonía",
             "Nihilidad",
-            "Reminiscencia"
-        )
+            "Reminiscencia")
 
         val adaptador3 = ArrayAdapter(
             this,
@@ -129,8 +126,8 @@ class PaginaCrear : AppCompatActivity() {
     }
 
 
-    private fun guardarTarjeta(nombre: String, rango: String, region: String, via: String) {
-        val tarjeta = TarjetaCreacion(nombre, rango, region, via)
+    private fun guardarTarjeta(nombre: String, rango: String, region: String, via_principal: String) {
+        val tarjeta = TarjetaCreacion(nombre, rango, region, via_principal)
         Log.d(TAG, "Enviando JSON: $tarjeta")
         RetrofitClient.instance.crearTarjeta(tarjeta).enqueue(object : retrofit2.Callback<TarjetaCreacion> {
             override fun onResponse(call: retrofit2.Call<TarjetaCreacion>, response: retrofit2.Response<TarjetaCreacion>) {

@@ -1,5 +1,5 @@
 package com.aulaestudio.crud_android
-
+//
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -14,4 +14,7 @@ object RetrofitClient {
 
         retrofit.create(ApiService::class.java)
     }
+
 }
+
+

@@ -25,6 +25,8 @@ class UserAdapter(
         val botonModificar: TextView = view.findViewById(R.id.modificarTargeta)
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         SimpleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_usuario, parent, false))
 
@@ -41,7 +43,7 @@ class UserAdapter(
             onEliminarClick(usuario)
         }
 
-        //Botón modificar → abrir pantalla ModificarActivity
+        //Botón modificar y al pulsar abrir pantalla ModificarActivity
         holder.botonModificar.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, Modificar::class.java)
@@ -53,12 +55,10 @@ class UserAdapter(
             intent.putExtra("region", usuario.region)
             intent.putExtra("via_principal", usuario.via_principal)
 
-            Log.d("adadasdasd", "onBindViewHolder: ")
+            Log.d("PULSAR BOTON MODI", "HAS PULSADO")
             context.startActivity(intent)
+
         }
-
-
-
 
 
 

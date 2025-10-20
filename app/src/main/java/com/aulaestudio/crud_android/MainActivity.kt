@@ -18,6 +18,7 @@ import kotlin.math.log
 class MainActivity : AppCompatActivity() {
     //
     private lateinit var adaptadorUsuarios: UserAdapter
+
     // funcion principal, se encarga de cargar la vista(html) que en nuestro caso es el activity.xml
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
         // mesaje de alerta para confirmar borrar la tarjeta
         adaptadorUsuarios = UserAdapter(emptyList()) { usuario ->
             // Abrir diálogo de confirmación
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .setMessage("¿Deseas borrar la tarjeta de ${usuario.nombre}?")
 
                 .setPositiveButton("Sí") { dialog, _ ->
+                    //en el caso de que si
                     borrarTarjeta(usuario._id!!)
                     dialog.dismiss()
                 }
@@ -76,11 +77,10 @@ class MainActivity : AppCompatActivity() {
                 //mostrar todos los usuarios en el log
                 for (usuario in usuarios) {
                     Log.d(
-                        "Carga de usuarios",
+                        "patata",
                         "id=${usuario._id}, Nombre=${usuario.nombre}, Rango=${usuario.rango}, Región=${usuario.region}, Vía=${usuario.via_principal}"
                     )
                 }
-
 
                 if (usuarios.isNotEmpty()) adaptadorUsuarios.actualizarDatos(usuarios)
                 else Toast.makeText(this@MainActivity, "No se encontraron usuarios.", Toast.LENGTH_SHORT).show()
@@ -108,6 +108,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+
 
 
 
